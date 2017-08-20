@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#ffbbada0"
+
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#ffbbada0"
         >
 
         <TextView
@@ -22,7 +23,22 @@
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:layout_weight="1"
+            android:text="0"
+            android:textSize="26sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best Score: "
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/bestscore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0"
             android:textSize="26sp" />
 
     </LinearLayout>
@@ -38,6 +54,37 @@
 
 
     </com.example.com.game2048.GameView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/restart"
+            android:text="Restart"
+            android:textSize="26sp"
+            android:textAllCaps="false"
+            android:background="@drawable/star_button_select"
+            />
+
+        <Button
+            android:id="@+id/withdraw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Withdraw"
+            android:textAllCaps="false"
+            android:textSize="26sp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/star_button_select"
+
+            />
+
+
+    </RelativeLayout>
 
 
 
