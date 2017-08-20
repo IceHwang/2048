@@ -218,7 +218,7 @@ public class GameView extends GridLayout {
                 cards[x][y].setNum(0);
             }
         }
-        MainActivity.num_score=0;
+        MainActivity.current_score=0;
         addRandomNum();
         addRandomNum();
 
