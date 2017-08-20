@@ -19,15 +19,21 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private int[] achieveflag;
+
+    private int regret,clickRestart,achievegameover;
+
+
     private SharedPreferences preferences;
 
     private SharedPreferences.Editor editor;
 
 
-    private static Button Restart,Withdraw;
+    private static Button Restart,Withdraw,Achievement;
 
     private static TextView t_current_score;
     private static TextView t_best_score;
+
 
 
     public static int current_score=0;
@@ -54,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
         return current_score;
     }
 
+    private String boolToString(int flag)
+    {
+        if(flag==1)
+            return "完成";
+        else
+            return "未完成";
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +75,20 @@ public class MainActivity extends AppCompatActivity {
         preferences= PreferenceManager.getDefaultSharedPreferences(this);
         editor=preferences.edit();
         best_score=preferences.getInt("BestScore",0);
+        achieveflag=new int[8];
+
+        achieveflag[0]=preferences.getInt("achievement0",0);
+        achieveflag[1]=preferences.getInt("achievement1",0);
+        achieveflag[2]=preferences.getInt("achievement2",0);
+        achieveflag[3]=preferences.getInt("achievement3",0);
+        achieveflag[4]=preferences.getInt("achievement4",0);
+        achieveflag[5]=preferences.getInt("achievement5",0);
+        achieveflag[6]=preferences.getInt("achievement6",0);
+        achieveflag[7]=preferences.getInt("achievement7",0);
+
+        regret=preferences.getInt("regret",0);
+        clickRestart=preferences.getInt("clickrestart",0);
+        achievegameover=preferences.getInt("achievegameover",0);
 
         setContentView(R.layout.activity_main);
         if (Build.VERSION.SDK_INT >= 21) {
@@ -77,7 +105,52 @@ public class MainActivity extends AppCompatActivity {
         t_best_score.setText(""+best_score);
         Restart=(Button)findViewById(R.id.restart);
         Withdraw=(Button)findViewById(R.id.withdraw);
+        Achievement=(Button)findViewById(R.id.achievement);
 
+
+
+
+        Achievement.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle("成就");
+                dialog.setMessage(""
+                        +"有点无聊:最高分达到2500\n"+"                              ................"+boolToString(achieveflag[0])+"\n"
+                        +"是很无聊:最高分达到3500\n"+"                              ................"+boolToString(achieveflag[1])+"\n"
+                        +"丢人先锋:后悔50次\n"+"                              ................"+boolToString(achieveflag[2])+"\n"
+                        +"控分大佬:不到200分结束游戏\n"+"                              ................"+boolToString(achieveflag[3])+"\n"
+                        +"别点,谢谢:重开200次\n"+"                              ................"+boolToString(achieveflag[4])+"\n"
+                        +"注意节制:游戏结束50次\n"+"                              ................"+boolToString(achieveflag[5])+"\n"
+                        +"您是大佬:集成一个2048\n"+"                              ................"+boolToString(achieveflag[6])+"\n"
+                        +"强迫症患者:完成以上所有成就\n"+"                              ................"+boolToString(achieveflag[7])+"\n"
+
+
+
+                );
+                dialog.setCancelable(false);
+                dialog.setNegativeButton("朕知道了",new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int which)
+                            {
+
+                            }
+                        }
+                );
+                dialog.setPositiveButton("什么狗屎",new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int which)
+                            {
+
+                            }
+                        }
+                ).show();
+            }
+        });
 
         Restart.setOnClickListener(new View.OnClickListener()
         {
@@ -86,6 +159,11 @@ public class MainActivity extends AppCompatActivity {
             {
                 GameView.getGameView().gamestart();
                 addScore(0);
+                clickRestart++;
+                editor.putInt("clickrestart",clickRestart);
+                editor.apply();
+                editor.clear();
+                achieveCheck4();
             }
         });
 
@@ -99,6 +177,11 @@ public class MainActivity extends AppCompatActivity {
                 if(withdraw_flag==true)
                 {
                     withdraw_flag=false;
+                    regret++;
+                    editor.putInt("regret",regret);
+                    editor.apply();
+                    editor.clear();
+                    achieveCheck2();
                     GameView.getGameView().withdraw();
                 }
             }
@@ -118,8 +201,11 @@ public class MainActivity extends AppCompatActivity {
             editor.clear();
         }
         t_current_score.setText(""+current_score);
+        achieveCheck0();
+
         if(add==2048)
         {
+            achieveCheck6();
             AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
             dialog.setTitle("无敌无敌");
             dialog.setMessage("你开挂了吧,对吧,对吧?你就承认了吧");
@@ -145,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int which)
                         {
-                            Toast.makeText(MainActivity.this,"佩服佩服,解锁成就:无聊到爆炸",Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this,"佩服佩服",Toast.LENGTH_LONG).show();
                             GameView.getGameView().gamestart();
                             addScore(0);
                         }
@@ -158,6 +244,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void gameover()
     {
+        achievegameover++;
+        achieveCheck5();
+        achieveCheck3();
         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
         dialog.setTitle("");
         dialog.setMessage("游戏结束");
@@ -184,5 +273,147 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    public void achieveCheck0()
+    {
+        if(achieveflag[0]==0)
+        {
+            if(best_score>2500)
+            {
+                achieveflag[0]=1;
+                editor.putInt("achievement0",1);
+                editor.apply();
+                editor.clear();
+
+                Toast.makeText(MainActivity.this,"完成成就:有点无聊",Toast.LENGTH_LONG).show();
+            }
+        }
+        achieveCheck1();
+        achieveCheck7();
+    }
+
+
+    public void achieveCheck1()
+    {
+        if(achieveflag[1]==0)
+        {
+            if(best_score>3500)
+            {
+                achieveflag[1]=1;
+                editor.putInt("achievement1",1);
+                editor.apply();
+                editor.clear();
+
+                Toast.makeText(MainActivity.this,"完成成就:是很无聊",Toast.LENGTH_LONG).show();
+            }
+        }
+        achieveCheck7();
+    }
+    public void achieveCheck2()
+    {
+        if(achieveflag[2]==0)
+        {
+            if(regret>=30)
+            {
+                achieveflag[2]=1;
+                editor.putInt("achievement2",1);
+                editor.apply();
+                editor.clear();
+
+                Toast.makeText(MainActivity.this,"完成成就:丢人先锋",Toast.LENGTH_LONG).show();
+            }
+        }
+        achieveCheck7();
+    }
+
+    public void achieveCheck3()
+    {
+        if(achieveflag[3]==0)
+        {
+            if(current_score<200)
+            {
+                achieveflag[3]=1;
+                editor.putInt("achievement3",1);
+                editor.apply();
+                editor.clear();
+
+                Toast.makeText(MainActivity.this,"完成成就:控分大佬",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+    public void achieveCheck4()
+    {
+        if(achieveflag[4]==0)
+        {
+            if(clickRestart>=200)
+            {
+                achieveflag[4]=1;
+                editor.putInt("achievement4",1);
+                editor.apply();
+                editor.clear();
+
+                Toast.makeText(MainActivity.this,"完成成就:别点,谢谢",Toast.LENGTH_LONG).show();
+            }
+        }
+        achieveCheck7();
+    }
+    public void achieveCheck5()
+    {
+        if(achieveflag[5]==0)
+        {
+            if(achievegameover>=50)
+            {
+                achieveflag[5]=1;
+                editor.putInt("achievement5",1);
+                editor.apply();
+                editor.clear();
+
+                Toast.makeText(MainActivity.this,"完成成就:注意节制",Toast.LENGTH_LONG).show();
+            }
+        }
+        achieveCheck7();
+    }
+    public void achieveCheck6()
+    {
+        if(achieveflag[6]==0)
+        {
+            if(true)
+            {
+                achieveflag[6]=1;
+                editor.putInt("achievement6",1);
+                editor.apply();
+                editor.clear();
+
+                Toast.makeText(MainActivity.this,"完成成就:您是大佬",Toast.LENGTH_LONG).show();
+            }
+        }
+        achieveCheck7();
+    }
+    public void achieveCheck7()
+    {
+        boolean flag=true;
+        if(achieveflag[7]==0)
+        {
+            for(int x=0;x<7;x++)
+            {
+                if(achieveflag[x]==0)
+                {
+                    flag=false;
+                    break;
+                }
+            }
+            if(flag)
+            {
+                achieveflag[7]=1;
+                editor.putInt("achievement7",1);
+                editor.apply();
+                editor.clear();
+
+                Toast.makeText(MainActivity.this,"完成成就:强迫症患者",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
 }
 
