@@ -30,6 +30,8 @@ public class Card extends FrameLayout {
 
     }
 
+
+
     public void setNum(int num)
     {
         this.num=num;
@@ -95,6 +97,7 @@ public class Card extends FrameLayout {
     {
         return num==o.num;
     }
+
 
 
 }

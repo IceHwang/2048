@@ -28,6 +28,13 @@ public class GameView extends GridLayout {
 
     private Card [][] cards = new Card[4][4];
 
+    private Card[][] pre_cards=new Card[4][4];
+
+    private Card[][] tmp_cards=new Card[4][4];
+
+
+    private int pre_score;
+
     private List<Point> emptyPoints = new ArrayList<Point>();
 
     private static GameView gameView=null;
@@ -38,6 +45,18 @@ public class GameView extends GridLayout {
     }
 
 
+    public void withdraw()
+    {
+        for(int x=0;x<4;x++)
+        {
+            for (int y=0;y<4;y++)
+            {
+                cards[x][y].setNum(pre_cards[x][y].getNum());
+            }
+        }
+
+        MainActivity.getMainActivity().addScore(pre_score-MainActivity.getMainActivity().getCurrent_score());
+    }
 
 
     public GameView(Context context, AttributeSet attrs, int defStyle) {
@@ -141,12 +160,33 @@ public class GameView extends GridLayout {
                 addView(c,width,height);
 
                 cards[x][y]=c;
+
+                c=new Card(getContext());
+                c.setNum(0);
+                pre_cards[x][y]=c;
+
+                c=new Card(getContext());
+                c.setNum(0);
+                tmp_cards[x][y]=c;
             }
         }
     }
 
     private void move(int direc)
     {
+
+        int tmp_score=MainActivity.getMainActivity().getCurrent_score();
+
+        for(int x=0;x<4;x++)
+        {
+            for (int y=0;y<4;y++)
+            {
+                tmp_cards[x][y].setNum(cards[x][y].getNum());
+            }
+        }
+
+
+
         boolean flag =false;
 
         switch (direc)
@@ -164,12 +204,25 @@ public class GameView extends GridLayout {
                 flag=MoveDown();
                 break;
         }
-        if(flag==true)
+        if(flag==true)//移动成功
         {
+            MainActivity.getMainActivity().withdraw_flag=true;
+            for(int x=0;x<4;x++)
+            {
+                for (int y=0;y<4;y++)
+                {
+                    pre_cards[x][y].setNum(tmp_cards[x][y].getNum());
+                }
+            }
+            pre_score=tmp_score;
+
+
             if(addRandomNum()==false)//添加卡片并验证游戏是否结束,,,,,,逻辑错误,无法验证
             {
                 checkgameover();
             }
+
+
 
         }
         else

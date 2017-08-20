@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     public static int best_score=0;
 
 
+    public boolean withdraw_flag=false;
+
     private static MainActivity mainActivity = null;
 
     public MainActivity()
@@ -41,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
         return mainActivity;
     }
 
+    public int getCurrent_score()
+    {
+        return current_score;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         t_current_score=(TextView)findViewById(R.id.current_score);
-        t_best_score=(TextView)findViewById(R.id.best_score) ;
+        t_best_score=(TextView)findViewById(R.id.best_score);
+        t_best_score.setText(""+best_score);
         Restart=(Button)findViewById(R.id.restart);
         Withdraw=(Button)findViewById(R.id.withdraw);
 
@@ -64,6 +74,21 @@ public class MainActivity extends AppCompatActivity {
                 addScore(0);
             }
         });
+
+
+        Withdraw.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+                if(withdraw_flag==true)
+                {
+                    withdraw_flag=false;
+                    GameView.getGameView().withdraw();
+                }
+            }
+        });
     }
 
     public void addScore(int add)
@@ -74,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
             best_score=current_score;
             t_best_score.setText(""+best_score);
             editor.putInt("BestScore",current_score);
+            editor.apply();
+            editor.clear();
         }
         t_current_score.setText(""+current_score);
 
