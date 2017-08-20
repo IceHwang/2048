@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Score: "
+            android:text="得分: "
             android:textSize="26sp" />
 
         <TextView
@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Best Score: "
+            android:text="最高分: "
             android:textSize="26sp" />
 
         <TextView
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/star_button_select"
-            android:text="Restart"
+            android:text="重开"
             android:textAllCaps="false"
             android:textSize="26sp" />
 
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@drawable/star_button_select"
-            android:text="Withdraw"
+            android:text="撤回"
             android:textAllCaps="false"
             android:textSize="26sp"
 

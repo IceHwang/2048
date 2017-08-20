@@ -1,5 +1,6 @@
 package com.example.com.game2048;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-
+                Toast.makeText(MainActivity.this,"你好弱哦 (´∇｀)",Toast.LENGTH_LONG).show();
                 if(withdraw_flag==true)
                 {
                     withdraw_flag=false;
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addScore(int add)
     {
+
         current_score+=add;
         if (current_score>best_score)
         {
@@ -115,7 +118,40 @@ public class MainActivity extends AppCompatActivity {
             editor.clear();
         }
         t_current_score.setText(""+current_score);
-
+        if(add==2048)
+        {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+            dialog.setTitle("无敌无敌");
+            dialog.setMessage("你开挂了吧,对吧,对吧?你就承认了吧");
+            dialog.setCancelable(false);
+            dialog.setPositiveButton("我凭本事的开的挂,怎么",new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface,int which)
+                        {
+                            best_score=0;
+                            t_best_score.setText(""+best_score);
+                            editor.putInt("BestScore",current_score);
+                            editor.apply();
+                            editor.clear();
+                            Toast.makeText(MainActivity.this,"成绩清零,以示惩罚ヽ( ￣д￣;)ノ",Toast.LENGTH_LONG).show();
+                            GameView.getGameView().gamestart();
+                            addScore(0);
+                        }
+                    }
+            );
+            dialog.setNegativeButton("没有,你不要乱说",new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface,int which)
+                        {
+                            Toast.makeText(MainActivity.this,"佩服佩服,解锁成就:无聊到爆炸",Toast.LENGTH_LONG).show();
+                            GameView.getGameView().gamestart();
+                            addScore(0);
+                        }
+                    }
+            ).show();
+        }
 
     }
 
@@ -124,9 +160,9 @@ public class MainActivity extends AppCompatActivity {
     {
         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
         dialog.setTitle("");
-        dialog.setMessage("Game Over");
+        dialog.setMessage("游戏结束");
         dialog.setCancelable(false);
-        dialog.setPositiveButton("OK",new DialogInterface.OnClickListener()
+        dialog.setPositiveButton("那又怎样",new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialogInterface,int which)
@@ -134,7 +170,19 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }
+        );
+        dialog.setNegativeButton("认输认输",new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface,int which)
+                    {
+                        GameView.getGameView().gamestart();
+                        addScore(0);
+                    }
+                }
         ).show();
+
+
     }
 }
 
