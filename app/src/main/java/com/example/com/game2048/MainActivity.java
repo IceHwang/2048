@@ -5,11 +5,13 @@ import android.preference.DialogPreference;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private static Button Restart,Withdraw;
 
     private static TextView t_score;
 
@@ -32,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         t_score=(TextView)findViewById(R.id.score);
+        Restart=(Button)findViewById(R.id.restart);
+        Withdraw=(Button)findViewById(R.id.withdraw);
+        Restart.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                GameView.getGameView().gamestart();
+            }
+        });
     }
 
     public void addScore(int add)
@@ -45,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     public void gameover()
     {
         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-        dialog.setTitle("GG");
+        dialog.setTitle("");
         dialog.setMessage("Game Over");
         dialog.setCancelable(false);
         dialog.setPositiveButton("OK",new DialogInterface.OnClickListener()

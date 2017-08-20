@@ -30,22 +30,31 @@ public class GameView extends GridLayout {
 
     private List<Point> emptyPoints = new ArrayList<Point>();
 
+    private static GameView gameView=null;
+
+    public static GameView getGameView()
+    {
+        return gameView;
+    }
 
 
 
 
     public GameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        gameView=this;
         initGameView();
     }
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        gameView=this;
         initGameView();
     }
 
     public GameView(Context context) {
         super(context);
+        gameView=this;
         initGameView();
     }
 
@@ -200,7 +209,7 @@ public class GameView extends GridLayout {
     }
 
 
-    private void gamestart()
+    public void gamestart()
     {
         for (int y=0;y<4;y++)
         {
