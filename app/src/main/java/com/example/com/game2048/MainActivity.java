@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         +"有点无聊:最高分达到2500\n"+"                              ................"+boolToString(achieveflag[0])+"\n"
                         +"是很无聊:最高分达到3500\n"+"                              ................"+boolToString(achieveflag[1])+"\n"
                         +"丢人先锋:后悔50次\n"+"                              ................"+boolToString(achieveflag[2])+"\n"
-                        +"控分大佬:不到200分结束游戏\n"+"                              ................"+boolToString(achieveflag[3])+"\n"
+                        +"控分大佬:不到150分结束游戏\n"+"                              ................"+boolToString(achieveflag[3])+"\n"
                         +"别点,谢谢:重开200次\n"+"                              ................"+boolToString(achieveflag[4])+"\n"
                         +"注意节制:游戏结束50次\n"+"                              ................"+boolToString(achieveflag[5])+"\n"
                         +"您是大佬:集成一个2048\n"+"                              ................"+boolToString(achieveflag[6])+"\n"
@@ -162,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
                 clickRestart++;
                 editor.putInt("clickrestart",clickRestart);
                 editor.apply();
-                editor.clear();
                 achieveCheck4();
             }
         });
@@ -180,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
                     regret++;
                     editor.putInt("regret",regret);
                     editor.apply();
-                    editor.clear();
                     achieveCheck2();
                     GameView.getGameView().withdraw();
                 }
@@ -198,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
             t_best_score.setText(""+best_score);
             editor.putInt("BestScore",current_score);
             editor.apply();
-            editor.clear();
         }
         t_current_score.setText(""+current_score);
         achieveCheck0();
@@ -219,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
                             t_best_score.setText(""+best_score);
                             editor.putInt("BestScore",current_score);
                             editor.apply();
-                            editor.clear();
                             Toast.makeText(MainActivity.this,"成绩清零,以示惩罚ヽ( ￣д￣;)ノ",Toast.LENGTH_LONG).show();
                             GameView.getGameView().gamestart();
                             addScore(0);
@@ -283,7 +279,6 @@ public class MainActivity extends AppCompatActivity {
                 achieveflag[0]=1;
                 editor.putInt("achievement0",1);
                 editor.apply();
-                editor.clear();
 
                 Toast.makeText(MainActivity.this,"完成成就:有点无聊",Toast.LENGTH_LONG).show();
             }
@@ -302,7 +297,6 @@ public class MainActivity extends AppCompatActivity {
                 achieveflag[1]=1;
                 editor.putInt("achievement1",1);
                 editor.apply();
-                editor.clear();
 
                 Toast.makeText(MainActivity.this,"完成成就:是很无聊",Toast.LENGTH_LONG).show();
             }
@@ -318,7 +312,6 @@ public class MainActivity extends AppCompatActivity {
                 achieveflag[2]=1;
                 editor.putInt("achievement2",1);
                 editor.apply();
-                editor.clear();
 
                 Toast.makeText(MainActivity.this,"完成成就:丢人先锋",Toast.LENGTH_LONG).show();
             }
@@ -330,12 +323,11 @@ public class MainActivity extends AppCompatActivity {
     {
         if(achieveflag[3]==0)
         {
-            if(current_score<200)
+            if(current_score<150)
             {
                 achieveflag[3]=1;
                 editor.putInt("achievement3",1);
                 editor.apply();
-                editor.clear();
 
                 Toast.makeText(MainActivity.this,"完成成就:控分大佬",Toast.LENGTH_LONG).show();
             }
@@ -350,7 +342,6 @@ public class MainActivity extends AppCompatActivity {
                 achieveflag[4]=1;
                 editor.putInt("achievement4",1);
                 editor.apply();
-                editor.clear();
 
                 Toast.makeText(MainActivity.this,"完成成就:别点,谢谢",Toast.LENGTH_LONG).show();
             }
@@ -366,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
                 achieveflag[5]=1;
                 editor.putInt("achievement5",1);
                 editor.apply();
-                editor.clear();
+
 
                 Toast.makeText(MainActivity.this,"完成成就:注意节制",Toast.LENGTH_LONG).show();
             }
@@ -382,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
                 achieveflag[6]=1;
                 editor.putInt("achievement6",1);
                 editor.apply();
-                editor.clear();
+
 
                 Toast.makeText(MainActivity.this,"完成成就:您是大佬",Toast.LENGTH_LONG).show();
             }
@@ -407,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
                 achieveflag[7]=1;
                 editor.putInt("achievement7",1);
                 editor.apply();
-                editor.clear();
+
 
                 Toast.makeText(MainActivity.this,"完成成就:强迫症患者",Toast.LENGTH_LONG).show();
             }
