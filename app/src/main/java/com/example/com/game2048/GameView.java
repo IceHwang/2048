@@ -1,21 +1,16 @@
 package com.example.com.game2048;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.graphics.Point;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridLayout;
 import android.content.Context;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 
 /**
@@ -44,6 +39,7 @@ public class GameView extends GridLayout {
         return gameView;
     }
 
+    public int cardwidth;
 
     public void withdraw()
     {
@@ -52,6 +48,9 @@ public class GameView extends GridLayout {
             for (int y=0;y<4;y++)
             {
                 cards[x][y].setNum(pre_cards[x][y].getNum());
+                Animator animator = AnimatorInflater.loadAnimator(getContext(), R.animator.appear);
+                animator.setTarget(cards[x][y]);
+                animator.start();
             }
         }
 
@@ -141,7 +140,7 @@ public class GameView extends GridLayout {
     protected void onSizeChanged(int w,int h,int oldw,int oldh)
     {
         super.onSizeChanged(w,h,oldh,oldh);
-        int cardwidth=(Math.min(w,h)-10)/4;
+        cardwidth=(Math.min(w,h)-10)/4;
         addCards(cardwidth,cardwidth);
         gamestart();
 
@@ -299,6 +298,10 @@ public class GameView extends GridLayout {
 
         cards[point.x][point.y].setNum(Math.random()>0.1?2:4);
 
+        Animator animator = AnimatorInflater.loadAnimator(getContext(), R.animator.appear);
+        animator.setTarget(cards[point.x][point.y]);
+        animator.start();
+
         if(emptyPoints.size()==0)
         {
 
@@ -353,6 +356,9 @@ public class GameView extends GridLayout {
                 {
                     MainActivity.getMainActivity().addScore(cards[x][y].getNum()*2);
                     cards[x-1][y].setNum(cards[x][y].getNum()*2);
+                    Animator animator = AnimatorInflater.loadAnimator(getContext(), R.animator.appear);
+                    animator.setTarget(cards[x-1][y]);
+                    animator.start();
                     cards[x][y].setNum(0);
                     flag=true;
                 }
@@ -439,6 +445,9 @@ public class GameView extends GridLayout {
                 {
                     MainActivity.getMainActivity().addScore(cards[x][y].getNum()*2);
                     cards[x+1][y].setNum(cards[x][y].getNum()*2);
+                    Animator animator = AnimatorInflater.loadAnimator(getContext(), R.animator.appear);
+                    animator.setTarget(cards[x+1][y]);
+                    animator.start();
                     cards[x][y].setNum(0);
                     flag=true;
                 }
@@ -525,6 +534,9 @@ public class GameView extends GridLayout {
                 {
                     MainActivity.getMainActivity().addScore(cards[x][y].getNum()*2);
                     cards[x][y-1].setNum(cards[x][y].getNum()*2);
+                    Animator animator = AnimatorInflater.loadAnimator(getContext(), R.animator.appear);
+                    animator.setTarget(cards[x][y-1]);
+                    animator.start();
                     cards[x][y].setNum(0);
                     flag=true;
                 }
@@ -611,6 +623,9 @@ public class GameView extends GridLayout {
                 {
                     MainActivity.getMainActivity().addScore(cards[x][y].getNum()*2);
                     cards[x][y+1].setNum(cards[x][y].getNum()*2);
+                    Animator animator = AnimatorInflater.loadAnimator(getContext(), R.animator.appear);
+                    animator.setTarget(cards[x][y+1]);
+                    animator.start();
                     cards[x][y].setNum(0);
                     flag=true;
                 }
