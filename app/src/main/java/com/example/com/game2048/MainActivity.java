@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 GameView.getGameView().gamestart();
                 addScore(0);
+                withdraw_flag=false;
                 clickRestart++;
                 editor.putInt("clickrestart",clickRestart);
                 editor.apply();

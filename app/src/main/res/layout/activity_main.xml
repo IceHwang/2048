@@ -58,17 +58,39 @@
         android:textSize="40sp"
         />
 
-    <com.example.com.game2048.GameView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:id="@+id/game_view"
         >
 
+        <com.example.com.game2048.AnimView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/anim_view"
+
+            >
+
+        </com.example.com.game2048.AnimView>
+
+        <com.example.com.game2048.GameView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/game_view"
+            >
+        </com.example.com.game2048.GameView>
 
 
 
-    </com.example.com.game2048.GameView>
+
+    </RelativeLayout>
+
+
+
+
+
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
