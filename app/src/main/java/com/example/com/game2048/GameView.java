@@ -51,6 +51,9 @@ public class GameView extends GridLayout {
         }
 
         MainActivity.getMainActivity().addScore(pre_score - MainActivity.getMainActivity().getCurrent_score());
+
+        MainActivity.getMainActivity().encoder(cards);
+
     }
 
 
@@ -127,7 +130,7 @@ public class GameView extends GridLayout {
         super.onSizeChanged(w, h, oldh, oldh);
         cardwidth = (Math.min(w, h) - 10) / 4;
         addCards(cardwidth, cardwidth);
-        gamestart();
+        gamestart(false);
 
     }
 
@@ -191,10 +194,14 @@ public class GameView extends GridLayout {
             pre_score = tmp_score;
 
 
+
             if (addRandomNum() == false)//添加卡片并验证游戏是否结束,,,,,,逻辑错误,无法验证
             {
                 checkgameover();
             }
+
+            MainActivity.getMainActivity().encoder(cards);
+
 
 
         } else {
@@ -227,15 +234,29 @@ public class GameView extends GridLayout {
     }
 
 
-    public void gamestart() {
+    public void gamestart(boolean isRestart) {
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 cards[x][y].setNum(0);
             }
         }
         MainActivity.current_score = 0;
-        addRandomNum();
-        addRandomNum();
+
+        if(isRestart==true)
+        {
+            addRandomNum();
+            addRandomNum();
+            MainActivity.getMainActivity().encoder(cards);
+        }
+        else
+        {
+            if (MainActivity.getMainActivity().resume(cards) == false) {
+                addRandomNum();
+                addRandomNum();
+            }
+        }
+
+        MainActivity.getMainActivity().withdraw_flag=false;
 
     }
 

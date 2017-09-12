@@ -67,6 +67,51 @@ public class MainActivity extends AppCompatActivity {
         else
             return "未完成";
     }
+    public void encoder(Card[][] cards)
+    {
+        StringBuilder builder =new StringBuilder();
+        builder.append(""+current_score+".");
+        for (int y=0;y<4;y++)
+        {
+            for (int x=0;x<4;x++)
+            {
+                builder.append(""+cards[x][y].getNum()+".");
+            }
+        }
+        editor.putString("resume",builder.toString());
+        editor.apply();
+        return;
+    }
+
+    public int decoder(String string,Card[][] cards)
+    {
+        String strings[]= string.split("\\.");
+
+        for (int y=0;y<4;y++)
+        {
+            for (int x=0;x<4;x++)
+            {
+                cards[x][y].setNum(Integer.parseInt(strings[4*y+x+1]));
+            }
+        }
+
+
+        return Integer.parseInt(strings[0]);
+    }
+
+
+    public boolean resume(Card[][] cards)
+    {
+        String string=preferences.getString("resume","");
+        if(string=="")
+            return false;
+        else
+        {
+            current_score=decoder(string,cards);
+            t_current_score.setText(""+current_score);
+            return true;
+        }
+    }
 
 
     @Override
@@ -106,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
         Restart=(Button)findViewById(R.id.restart);
         Withdraw=(Button)findViewById(R.id.withdraw);
         Achievement=(Button)findViewById(R.id.achievement);
+
 
 
 
@@ -157,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                GameView.getGameView().gamestart();
+                GameView.getGameView().gamestart(true);
                 addScore(0);
                 withdraw_flag=false;
                 clickRestart++;
@@ -218,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                             editor.putInt("BestScore",current_score);
                             editor.apply();
                             Toast.makeText(MainActivity.this,"成绩清零,以示惩罚ヽ( ￣д￣;)ノ",Toast.LENGTH_LONG).show();
-                            GameView.getGameView().gamestart();
+                            GameView.getGameView().gamestart(true);
                             addScore(0);
                         }
                     }
@@ -229,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface,int which)
                         {
                             Toast.makeText(MainActivity.this,"佩服佩服",Toast.LENGTH_LONG).show();
-                            GameView.getGameView().gamestart();
+                            GameView.getGameView().gamestart(true);
                             addScore(0);
                         }
                     }
@@ -262,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface,int which)
                     {
-                        GameView.getGameView().gamestart();
+                        GameView.getGameView().gamestart(true);
                         addScore(0);
                     }
                 }
